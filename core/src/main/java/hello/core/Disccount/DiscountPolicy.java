@@ -1,0 +1,10 @@
+package hello.core.Disccount;
+
+import hello.core.member.Member;
+
+public interface DiscountPolicy {
+/*
+*
+* return 할인금액*/
+    int discount(Member member, int price);
+}
