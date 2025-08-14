@@ -4,6 +4,7 @@ import com.study.board.entity.Board;
 import com.study.board.service.ServiceWrite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,17 +51,18 @@ public class BoardController {
         service.boardDelete(id);
         return "redirect:/board/list";
     }
-    @GetMapping("/board/modify{id}")
+    @GetMapping("/board/modify/{id}")
     public String boardModify(Model model,@PathVariable("id") Integer id){
         model.addAttribute("board",service.boardView(id));
         return "boardmodify";
     }
-    @PostMapping("/board/update{id}")
-    public String boardModify(@PathVariable("id") Integer id, Board board){
-        Board boardTemp=service.boardView(id);
-        boardTemp.setTitle(board.getTitle());
-        boardTemp.setContent(board.getContent());
-        return "redirect:/board/list";
+
+    @PostMapping("/board/update/{id}")
+    public String boardModify(@PathVariable("id") Integer id, Board board,Model model){
+        service.boardUpdate(id,board);
+        model.addAttribute("message","글 수정 완료");
+        model.addAttribute("searchUrl","/board/list");
+        return "message";
     }
 
 }

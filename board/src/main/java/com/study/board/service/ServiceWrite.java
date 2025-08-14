@@ -11,4 +11,5 @@ public interface ServiceWrite {
     public List<Board> BoardList();
     public Board boardView(Integer id);
     public void boardDelete(Integer id);
+    public void boardUpdate(Integer id,Board board);
 }

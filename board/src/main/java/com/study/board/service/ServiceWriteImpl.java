@@ -22,6 +22,13 @@ public class ServiceWriteImpl implements ServiceWrite {
     public void write(Board board) {
         boardRepository.save(board);
     }
+    @Transactional
+    @Override
+    public void boardUpdate(Integer id, Board board) {
+        Board boardTemp=boardView(id);
+        boardTemp.setTitle(board.getTitle());
+        boardTemp.setContent(board.getContent());
+    }
 
     @Override
     public List<Board> BoardList() {
