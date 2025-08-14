@@ -22,9 +22,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="board : ${list}">
-                    <td th:text="${board.id}"></td>
-                    <td th:text="${board.title}">제목 입니다</td>
+                <tr th:each="board,iterStat : ${list}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td ><a th:href="@{/board/view(id=${board.id})}" th:text="${board.title}"></a></td>
                 </tr>
             </tbody>
         </table>

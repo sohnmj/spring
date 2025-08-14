@@ -27,4 +27,14 @@ public class ServiceWriteImpl implements ServiceWrite {
     public List<Board> BoardList() {
         return boardRepository.findAll();
     }
+
+    @Override
+    public void boardDelete(Integer id) {
+        boardRepository.deleteById(id);
+    }
+
+    @Override
+    public Board boardView(Integer id) {
+        return boardRepository.findById(id).get();
+    }
 }
