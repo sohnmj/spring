@@ -34,14 +34,24 @@ public class BoardController {
     public String boardWritePro(Board entity, Model model, MultipartFile file)throws Exception{
 
         service.write(entity,file);
+
         model.addAttribute("message","글작성 완료");
         model.addAttribute("searchUrl","/board/list");
         return "message";
     }
     @GetMapping("/board/list")
-    public String boardList(Model model,@PageableDefault(page=0,size=10,sort="id",direction = Sort.Direction.DESC) Pageable pageable){
-
-        Page<Board> boards = service.BoardList(pageable);
+    public String boardList(Model model,
+                            @PageableDefault(page=0,size=10,sort="id",direction = Sort.Direction.DESC) Pageable pageable,
+                            String searchKeyword
+    ){
+        Page<Board>boards=null;
+        if(searchKeyword==null) {
+           boards = service.BoardList(pageable);
+        }
+        else {
+            boards = service.boardSearchList(searchKeyword,pageable);
+        }
+        //페이지 처리
         int nowPage=boards.getPageable().getPageNumber()+1;
         int startPage=Math.max(nowPage-4,1);
         int endPage=Math.min(nowPage+5, boards.getTotalPages());
@@ -49,8 +59,6 @@ public class BoardController {
         model.addAttribute("nowPage",nowPage);
         model.addAttribute("startPage",startPage);
         model.addAttribute("endPage",endPage);
-
-
         return "boardlist";
     }
     @GetMapping("/board/view")
@@ -70,7 +78,7 @@ public class BoardController {
     }
 
     @PostMapping("/board/update/{id}")
-    public String boardModify(@PathVariable("id") Integer id, Board board,Model model,MultipartFile file){
+    public String boardModify(@PathVariable("id") Integer id, Board board,Model model,MultipartFile file) throws Exception{
         service.boardUpdate(id,board,file);
         model.addAttribute("message","글 수정 완료");
         model.addAttribute("searchUrl","/board/list");

@@ -16,5 +16,7 @@ public interface ServiceWrite {
     public Page<Board> BoardList(Pageable pageable);
     public Board boardView(Integer id);
     public void boardDelete(Integer id);
-    public void boardUpdate(Integer id,Board board,MultipartFile file);
+    public void boardUpdate(Integer id,Board board,MultipartFile file)throws Exception;
+    public Page<Board>boardSearchList(String searchKeyword,Pageable pageable);
+    public void fileDelete(String fileName);
 }
