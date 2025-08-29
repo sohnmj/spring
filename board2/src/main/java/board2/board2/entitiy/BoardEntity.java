@@ -31,6 +31,8 @@ public class BoardEntity extends BaseEntity {
     private int fileAttached;
     @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<BoardFileEntity>boardFileEntityList=new ArrayList<>();
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommentEntity>commentEntityList=new ArrayList<>();
     static public BoardEntity TO_BoardEntity(BoardDTO boardDTO){
         BoardEntity boardEntity=new BoardEntity();
         boardEntity.boardWriter=boardDTO.getBoardWriter();
