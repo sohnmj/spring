@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>index</title>
+</head>
+<body>
+<div th:if="${session.loginId!=null}">
+    <p th:text="${session.loginId + '의 단어장'}"></p>
+    <a href="/member/update">내 정보 수정하기</a>
+    <a href="/member/logout">로그아웃</a>
+
+    <a href="/board/">단어장</a>
+</div>
+<form th:if="${session.loginId==null}" action="/member/login" method="post">
+  <input name="userId" value="아이디">
+  <input name ="password" type="password" value="비밀번호">
+  <input type="submit" value="로그인">
+    <button onclick="newMember()">회원가입</button>
+</form>
+
+
+</body>
+<script>
+  //  function saveReq() {
+  //
+  //  }
+
+    const newMember = () => {
+      location.href = "/member/new";
+    }
+
+
+
+</script>
+</html>
