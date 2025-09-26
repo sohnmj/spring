@@ -27,6 +27,7 @@ public class MemberController {
     }
     @PostMapping("/login")
     public String memberLogin(MemberDTO memberDTO, HttpSession session){
+        System.out.println("memberDTO = " + memberDTO);
         int login = memberService.login(memberDTO);
         if(login==1){
             session.setAttribute("loginId",memberDTO.getId());

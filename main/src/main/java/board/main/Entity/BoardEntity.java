@@ -17,10 +17,12 @@ public class BoardEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private MemberEntity memberEntity;
-    static public BoardEntity toBoardEntity(BoardDTO boardDTO) {
+    static public BoardEntity toBoardEntity(BoardDTO boardDTO,MemberEntity memberEntity) {
         BoardEntity boardEntity = new BoardEntity();
         boardEntity.setTitle(boardDTO.getTitle());
         boardEntity.setContent(boardDTO.getContent());
+        boardEntity.setMemberEntity(memberEntity);
         return boardEntity;
     }
+
 }
