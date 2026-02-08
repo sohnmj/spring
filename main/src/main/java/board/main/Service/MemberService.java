@@ -4,6 +4,7 @@ import board.main.DTO.MemberDTO;
 import board.main.Entity.MemberEntity;
 import board.main.Repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberService {
     public final MemberRepository memberRepository;
-    public void save(MemberDTO memberDTO){
+    public void save(MemberDTO memberDTO) throws DataIntegrityViolationException {
         MemberEntity memberEntity = MemberEntity.To_MemberEntity(memberDTO);
         memberRepository.save(memberEntity);
     }
@@ -65,7 +66,8 @@ public class MemberService {
     public void deleteById(long id){
         memberRepository.deleteById(id);
     }
-
-
+    public MemberEntity findByUserId(MemberDTO memberDTO){
+        return memberRepository.findByUserId(memberDTO.getUserId()).get();
+    }
 
 }

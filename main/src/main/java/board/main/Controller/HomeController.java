@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
     @GetMapping("/")
     public String home(HttpSession session) {
+        System.out.println("session.getAttribute(\"loginId\") = " + session.getAttribute("loginId"));
         return "index";
     }
 }

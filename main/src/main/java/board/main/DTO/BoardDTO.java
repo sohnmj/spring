@@ -14,6 +14,7 @@ public class BoardDTO {
         boardDTO.setId(boardEntity.getId());
         boardDTO.setTitle(boardEntity.getTitle());
         boardDTO.setContent(boardEntity.getContent());
+        boardDTO.setMemberId(boardEntity.getMemberEntity().getId());
         return boardDTO;
     }
 }

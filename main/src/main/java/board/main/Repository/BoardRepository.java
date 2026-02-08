@@ -1,10 +1,14 @@
 package board.main.Repository;
 
 import board.main.Entity.BoardEntity;
+import board.main.Entity.MemberEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface BoardRepository extends JpaRepository<BoardEntity,Long> {
+    public List<BoardEntity> findByMemberEntity(MemberEntity memberEntity);
 
 }

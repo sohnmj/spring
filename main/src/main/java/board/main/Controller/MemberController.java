@@ -1,9 +1,11 @@
 package board.main.Controller;
 
 import board.main.DTO.MemberDTO;
+import board.main.Entity.MemberEntity;
 import board.main.Service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +24,13 @@ public class MemberController {
 
     @PostMapping("/save")
     public String memberSave(MemberDTO memberDTO){
-        memberService.save(memberDTO);
+        try {
+            memberService.save(memberDTO);
+
+        }
+        catch (DataIntegrityViolationException e) {
+            System.out.println("e = " + e);
+        }
         return "redirect:/";
     }
     @PostMapping("/login")
@@ -30,7 +38,8 @@ public class MemberController {
         System.out.println("memberDTO = " + memberDTO);
         int login = memberService.login(memberDTO);
         if(login==1){
-            session.setAttribute("loginId",memberDTO.getId());
+            MemberEntity memberEntity = memberService.findByUserId(memberDTO);
+            session.setAttribute("loginId",memberEntity.getId());
             return "redirect:/";
         }
         else{

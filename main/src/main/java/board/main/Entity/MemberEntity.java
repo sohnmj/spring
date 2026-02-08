@@ -16,7 +16,7 @@ public class MemberEntity {
     private Long id;
     @Column(unique = true)
     private String email;
-    @Column
+    @Column(unique = true)
     private String userId;
     @Column
     private String password;

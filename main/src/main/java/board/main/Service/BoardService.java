@@ -9,13 +9,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
     public List<BoardDTO> findAll() {
-        List<BoardEntity> boards = boardRepository.findAll();
+        List<BoardEntity> boardEntityList = boardRepository.findAll();
+        List<BoardDTO> boardDTOList = new ArrayList<>();
+        for (BoardEntity boardEntity : boardEntityList) {
+            BoardDTO boardDTO = BoardDTO.toBoardDTO(boardEntity);
+            boardDTOList.add(boardDTO);
+        }
+        return boardDTOList;
+    }
+    public List<BoardDTO> findByIdAll(Long id) {
+        MemberEntity memberEntity = memberRepository.findById(id).get();
+        List<BoardEntity> boards = boardRepository.findByMemberEntity(memberEntity);
         List<BoardDTO> boardList=new ArrayList<BoardDTO>();
         for(BoardEntity board : boards){
             boardList.add(BoardDTO.toBoardDTO(board));
@@ -30,5 +42,16 @@ public class BoardService {
     public BoardDTO findById(Long id) {
         BoardEntity boardEntity = boardRepository.findById(id).get();
         return BoardDTO.toBoardDTO(boardEntity);
+    }
+    public Long getBoardMemberId(Long id) {
+        BoardEntity boardEntity = boardRepository.findById(id).get();
+        return boardEntity.getMemberEntity().getId();
+    }
+    public void update(BoardDTO boardDTO,Long memberId) {
+        BoardEntity byId = boardRepository.findById(boardDTO.getId()).get();
+        byId.setTitle(boardDTO.getTitle());
+        byId.setContent(boardDTO.getContent());
+
+        boardRepository.save(byId);
     }
 }
